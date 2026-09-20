@@ -239,13 +239,10 @@ public class AdminDashboard extends JFrame {
         new UserManagementPanel(),
         "USERS"
 );   
-        contentPanel.add(
-                createPlaceholderPanel(
-                        "Reports",
-                        "View sales, stock and expiry reports."
-                ),
-                "REPORTS"
-        );
+       contentPanel.add(
+        new ReportsPanel(),
+        "REPORTS"
+);
 
         return contentPanel;
     }
