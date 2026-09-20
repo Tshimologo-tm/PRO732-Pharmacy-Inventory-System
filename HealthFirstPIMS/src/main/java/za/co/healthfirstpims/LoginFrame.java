@@ -8,6 +8,10 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -74,10 +78,7 @@ public class LoginFrame extends JFrame {
     }
 
     private JPanel createHeader() {
-        JPanel header = new JPanel(
-                new GridBagLayout()
-        );
-
+        JPanel header = new JPanel(new GridBagLayout());
         header.setOpaque(false);
 
         GridBagConstraints constraints =
@@ -269,34 +270,94 @@ public class LoginFrame extends JFrame {
             return;
         }
 
-        if (username.equals("admin")
-                && password.equals("admin123")) {
+        String sql =
+                "SELECT user_id, username, role, full_name "
+                + "FROM users "
+                + "WHERE username = ? "
+                + "AND password = SHA2(?, 256)";
 
+        loginButton.setEnabled(false);
+        loginButton.setText("VERIFYING...");
+
+        try (
+                Connection connection =
+                        DatabaseConnection.getConnection();
+
+                PreparedStatement statement =
+                        connection.prepareStatement(sql)
+        ) {
+            statement.setString(1, username);
+            statement.setString(2, password);
+
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.next()) {
+                    int userId =
+                            result.getInt("user_id");
+
+                    String fullName =
+                            result.getString("full_name");
+
+                    String role =
+                            result.getString("role");
+
+                    handleSuccessfulLogin(
+                            userId,
+                            fullName,
+                            role
+                    );
+                } else {
+                    showMessage(
+                            "The username or password is incorrect.",
+                            "Access Denied",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+
+                    passwordField.setText("");
+                    passwordField.requestFocus();
+                }
+            }
+
+        } catch (SQLException exception) {
             showMessage(
-                    "Welcome, HealthFirst Administrator.",
-                    "Login Successful",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-        } else if (username.equals("cashier")
-                && password.equals("cash123")) {
-
-            showMessage(
-                    "Welcome, HealthFirst Cashier.",
-                    "Login Successful",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-
-        } else {
-            showMessage(
-                    "The username or password is incorrect.",
-                    "Access Denied",
+                    "HealthFirst could not connect to the "
+                            + "database.\n\n"
+                            + exception.getMessage(),
+                    "Database Error",
                     JOptionPane.ERROR_MESSAGE
             );
 
-            passwordField.setText("");
-            passwordField.requestFocus();
+        } finally {
+            loginButton.setEnabled(true);
+            loginButton.setText("SIGN IN SECURELY");
         }
+    }
+
+    private void handleSuccessfulLogin(
+            int userId,
+            String fullName,
+            String role
+    ) {
+        showMessage(
+                "Welcome, " + fullName + ".\n"
+                        + "Access level: " + role,
+                "Login Successful",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+        System.out.println(
+                "Authenticated user ID: " + userId
+        );
+
+        System.out.println(
+                "Authenticated role: " + role
+        );
+
+        passwordField.setText("");
+
+        /*
+         * The AdminDashboard and CashierDashboard windows
+         * will be opened here once we create them.
+         */
     }
 
     private void showMessage(
