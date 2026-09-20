@@ -226,12 +226,9 @@ public class AdminDashboard extends JFrame {
         );
 
         contentPanel.add(
-                createPlaceholderPanel(
-                        "Medicine Management",
-                        "Add, update, search and monitor medicines."
-                ),
-                "MEDICINES"
-        );
+        new MedicineManagementPanel(),
+        "MEDICINES"
+);
 
         contentPanel.add(
                 createPlaceholderPanel(
