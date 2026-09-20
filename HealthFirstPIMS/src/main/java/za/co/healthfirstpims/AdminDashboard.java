@@ -235,14 +235,10 @@ public class AdminDashboard extends JFrame {
         "SUPPLIERS"
 );
 
-        contentPanel.add(
-                createPlaceholderPanel(
-                        "User Management",
-                        "Manage administrator and cashier accounts."
-                ),
-                "USERS"
-        );
-
+     contentPanel.add(
+        new UserManagementPanel(),
+        "USERS"
+);   
         contentPanel.add(
                 createPlaceholderPanel(
                         "Reports",
