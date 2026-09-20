@@ -17,9 +17,14 @@ public final class Theme {
     public static final Color EMERALD_DARK = new Color(15, 112, 78);
     public static final Color GOLD = new Color(212, 175, 55);
 
-    public static final Color TEXT_PRIMARY = new Color(245, 242, 232);
-    public static final Color TEXT_SECONDARY = new Color(171, 177, 187);
-    public static final Color DANGER = new Color(220, 75, 75);
+    public static final Color TEXT_PRIMARY =
+            new Color(245, 242, 232);
+
+    public static final Color TEXT_SECONDARY =
+            new Color(171, 177, 187);
+
+    public static final Color DANGER =
+            new Color(220, 75, 75);
 
     public static final Font TITLE_FONT =
             new Font("Segoe UI", Font.BOLD, 28);
@@ -35,16 +40,9 @@ public final class Theme {
     }
 
     public static void applyGlobalStyle() {
-        UIManager.put("Panel.background", BACKGROUND);
-        UIManager.put("Label.foreground", TEXT_PRIMARY);
-        UIManager.put("Label.font", BODY_FONT);
-
-        UIManager.put("TextField.background", SURFACE_LIGHT);
-        UIManager.put("TextField.foreground", TEXT_PRIMARY);
+        // Only change the text cursor colours globally.
+        // This keeps JOptionPane messages readable.
         UIManager.put("TextField.caretForeground", GOLD);
-
-        UIManager.put("PasswordField.background", SURFACE_LIGHT);
-        UIManager.put("PasswordField.foreground", TEXT_PRIMARY);
         UIManager.put("PasswordField.caretForeground", GOLD);
     }
 
@@ -52,8 +50,12 @@ public final class Theme {
         button.setBackground(EMERALD);
         button.setForeground(Color.WHITE);
         button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
         button.setFocusPainted(false);
         button.setBorderPainted(false);
+        button.setContentAreaFilled(true);
+        button.setOpaque(true);
+
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 }
