@@ -230,13 +230,10 @@ public class AdminDashboard extends JFrame {
         "MEDICINES"
 );
 
-        contentPanel.add(
-                createPlaceholderPanel(
-                        "Supplier Management",
-                        "Manage HealthFirst medicine suppliers."
-                ),
-                "SUPPLIERS"
-        );
+   contentPanel.add(
+        new SupplierManagementPanel(),
+        "SUPPLIERS"
+);
 
         contentPanel.add(
                 createPlaceholderPanel(
