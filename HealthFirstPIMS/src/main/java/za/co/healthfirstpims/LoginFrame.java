@@ -365,14 +365,22 @@ public class LoginFrame extends JFrame {
 
             dashboard.setVisible(true);
 
-        } else if ("Cashier".equalsIgnoreCase(role)) {
-            showMessage(
-                    "Welcome, " + fullName
-                            + ".\nThe Cashier Dashboard "
-                            + "will be available shortly.",
-                    "Cashier Login Successful",
-                    JOptionPane.INFORMATION_MESSAGE
+      } else if ("Cashier".equalsIgnoreCase(role)) {
+    showMessage(
+            "Welcome, " + fullName + ".",
+            "Cashier Login Successful",
+            JOptionPane.INFORMATION_MESSAGE
+    );
+
+    dispose();
+
+    CashierDashboard dashboard =
+            new CashierDashboard(
+                    userId,
+                    fullName
             );
+
+    dashboard.setVisible(true);
 
         } else {
             showMessage(
