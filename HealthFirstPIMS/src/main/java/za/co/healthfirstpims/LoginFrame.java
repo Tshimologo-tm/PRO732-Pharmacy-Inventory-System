@@ -78,7 +78,10 @@ public class LoginFrame extends JFrame {
     }
 
     private JPanel createHeader() {
-        JPanel header = new JPanel(new GridBagLayout());
+        JPanel header = new JPanel(
+                new GridBagLayout()
+        );
+
         header.setOpaque(false);
 
         GridBagConstraints constraints =
@@ -305,6 +308,7 @@ public class LoginFrame extends JFrame {
                             fullName,
                             role
                     );
+
                 } else {
                     showMessage(
                             "The username or password is incorrect.",
@@ -337,13 +341,6 @@ public class LoginFrame extends JFrame {
             String fullName,
             String role
     ) {
-        showMessage(
-                "Welcome, " + fullName + ".\n"
-                        + "Access level: " + role,
-                "Login Successful",
-                JOptionPane.INFORMATION_MESSAGE
-        );
-
         System.out.println(
                 "Authenticated user ID: " + userId
         );
@@ -354,10 +351,36 @@ public class LoginFrame extends JFrame {
 
         passwordField.setText("");
 
-        /*
-         * The AdminDashboard and CashierDashboard windows
-         * will be opened here once we create them.
-         */
+        if ("Admin".equalsIgnoreCase(role)) {
+            showMessage(
+                    "Welcome, " + fullName + ".",
+                    "Administrator Login Successful",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+            dispose();
+
+            AdminDashboard dashboard =
+                    new AdminDashboard(fullName);
+
+            dashboard.setVisible(true);
+
+        } else if ("Cashier".equalsIgnoreCase(role)) {
+            showMessage(
+                    "Welcome, " + fullName
+                            + ".\nThe Cashier Dashboard "
+                            + "will be available shortly.",
+                    "Cashier Login Successful",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+        } else {
+            showMessage(
+                    "Your account does not have a valid role.",
+                    "Access Denied",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     private void showMessage(
