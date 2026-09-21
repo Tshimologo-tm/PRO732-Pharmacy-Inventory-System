@@ -1,1 +1,7 @@
 /HealthFirstPIMS/target/
+/HealthFirstPIMS/package-input/
+/HealthFirstPIMS/distribution/
+/HealthFirstPIMS/distribution-small/
+**/app/
+**/runtime/
+**/*.exe

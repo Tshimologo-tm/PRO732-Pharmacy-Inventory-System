@@ -102,3 +102,7 @@ The complete schema and sample data are provided in:
 
 ```text
 database.sql
+
+## GitHub Repository
+
+https://github.com/Tshimologo-tm/PRO732-Pharmacy-Inventory-System
